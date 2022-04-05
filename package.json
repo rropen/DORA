@@ -20,6 +20,8 @@
   "scripts": {
     "prepare": "husky install",
     "dev": "ts-node src/index.ts",
+    "build": "yarn tsc",
+    "prod": "node ./dist/index.js",
     "commit": "cz",
     "test": ""
   },

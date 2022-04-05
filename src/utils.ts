@@ -5,7 +5,6 @@ require('dotenv').config();
 const gh_api_url = `https://api.github.com/graphql`;
 const gh_pat = process.env.GH_PAT || 'Key';
 const auth = `Bearer ${gh_pat}`;
-console.log(gh_pat)
 const graphQLClient = new GraphQLClient(gh_api_url, {
   headers: {
     authorization: auth,
