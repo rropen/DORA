@@ -1,0 +1,45 @@
+# Test
+name: Development Build
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+
+  push:
+    branches: [main]
+
+jobs:
+  docker-build:
+    uses: rropen/reusable-workflows/.github/workflows/docker_build.yml@main
+    with:
+      dockerfile_directory: ./src
+      image: ghcr.io/rrglobal/dora:latest
+      registry: ghcr.io
+    secrets:
+      cr_username: ${{ secrets.GH_CR_USERNAME }}
+      cr_PAT: ${{ secrets.CONTAINER_PAT }}
+
+  snyk-docker-vulnerability-scanning:
+    needs: docker-build
+    uses: rropen/reusable-workflows/.github/workflows/snyk_docker_vulnerability_scanning.yml@main
+    with:
+      image: ghcr.io/rrglobal/dora:latest
+      dockerfile_directory: ./src
+    secrets:
+      snyk_token: ${{secrets.SNYK_TOKEN}}
+      cr_username: ${{ secrets.GH_CR_USERNAME }}
+      cr_PAT: ${{ secrets.CONTAINER_PAT }}
+
+  deploy-azure:
+    needs: snyk-docker-vulnerability-scanning
+    uses: rropen/reusable-workflows/.github/workflows/docker_deploy_azure.yml@main
+    with:
+      dockerfile_directory: ./src
+      GH_image: ghcr.io/rrglobal/dora:latest
+    secrets:
+      AZ_image: ${{ secrets.IMAGE }}
+      crsft_login_server: ${{ secrets.CRSFT_LOGIN_SERVER }}
+      crsft_username: ${{ secrets.CRSFT_USERNAME }}
+      crsft_password: ${{ secrets.CRSFT_PASSWORD }}
+      cr_username: ${{ secrets.GH_CR_USERNAME }}
+      cr_PAT: ${{ secrets.CONTAINER_PAT }}
