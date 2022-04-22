@@ -8,16 +8,16 @@ on:
     branches: [main]
 
 jobs:
-  format:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install Rome
-        uses: ./
-        with:
-          version: latest
-      - name: Check formatting
-        run: rome format --ci src
+#   format:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Install Rome
+#         uses: ./
+#         with:
+#           version: latest
+#       - name: Check formatting
+#         run: rome format --ci src
         
   docker-build:
     uses: rropen/reusable-workflows/.github/workflows/docker_build.yml@main
