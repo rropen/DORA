@@ -11,12 +11,12 @@
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^7.0.0",
-    "prettier": "^2.3.2",
-    "pretty-quick": "^3.1.1"
+    "rome": "^0.4.2-next"
   },
   "scripts": {
     "prepare": "husky install",
     "commit": "cz",
+    "format": "rome format .",
     "test": ""
   },
   "dependencies": {

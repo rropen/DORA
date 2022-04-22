@@ -39,12 +39,12 @@ app.get("/query", async (req, res) => {
   const repo = req.query.repo as string;
   const metric = req.query.metric as string;
 
-  if (token != process.env.TOKEN_SECRET) {
+  if (token !== process.env.TOKEN_SECRET) {
     res.status(403).send("Forbidden Incorrect Token");
   } else if (!token) {
     res.status(403).send("Need a token for this endpoint");
   } else {
-    if (metric == "deploymentFrequency") {
+    if (metric === "deploymentFrequency") {
       if (owner && repo) {
         const deploymentData = await deployments(owner, repo);
         res.status(200).json(deploymentData);
@@ -63,6 +63,8 @@ app.get("/query", async (req, res) => {
 });
 
 const server = app.listen(3000, () =>
-  console.log(`
-Server ready at: http://localhost:3000`)
+  console.log(
+    `
+Server ready at: http://localhost:3000`
+  )
 );

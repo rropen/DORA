@@ -6,9 +6,7 @@ const gh_api_url = `https://api.github.com/graphql`;
 const gh_pat = process.env.GH_PAT || "Key";
 const auth = `Bearer ${gh_pat}`;
 const graphQLClient = new GraphQLClient(gh_api_url, {
-  headers: {
-    authorization: auth,
-  },
+  headers: { authorization: auth },
 });
 
 export const deployments = async (owner: string, repo: string) => {
@@ -51,14 +49,17 @@ export const deployments = async (owner: string, repo: string) => {
   }
 
   // Number Deployments
-  if (numberOfDeployments > 90) deploymentFrequency = "Elite";
-  else if (90 >= numberOfDeployments && numberOfDeployments > 13)
+  if (numberOfDeployments > 90) {
+    deploymentFrequency = "Elite";
+  } else if (90 >= numberOfDeployments && numberOfDeployments > 13) {
     deploymentFrequency = "High";
-  else if (13 > numberOfDeployments && numberOfDeployments > 3)
+  } else if (13 > numberOfDeployments && numberOfDeployments > 3) {
     deploymentFrequency = "Medium";
-  else if (3 >= numberOfDeployments && numberOfDeployments >= 1)
+  } else if (3 >= numberOfDeployments && numberOfDeployments >= 1) {
     deploymentFrequency = "Low";
-  else deploymentFrequency = "N/A";
+  } else {
+    deploymentFrequency = "N/A";
+  }
 
   return {
     deploymentFrequency: deploymentFrequency,
