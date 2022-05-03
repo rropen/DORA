@@ -10,7 +10,7 @@ const graphQLClient = new GraphQLClient(gh_api_url, {
 });
 
 export const deployments = async (owner: string, repo: string) => {
-  const query_deployment = gql`
+  const queryDeployment = gql`
     query ($owner: String!, $repo: String!) {
       repository(owner: $owner, name: $repo) {
         releases(last: 21) {
@@ -26,11 +26,11 @@ export const deployments = async (owner: string, repo: string) => {
   `;
   let variables = { owner: owner, repo: repo };
   const data = await graphQLClient.request({
-    document: query_deployment,
+    document: queryDeployment,
     variables: variables,
   });
 
-  let deployment_nodes = data.repository.releases.edges;
+  let deploymentNodes = data.repository.releases.edges;
   let numberOfDeployments = 0;
   let deploymentFrequency = "";
   let counter = 0;
@@ -38,9 +38,9 @@ export const deployments = async (owner: string, repo: string) => {
   let thirtyDaysAgo = new Date().setDate(todayDate.getDate() - 90);
   let today = todayDate.getTime();
 
-  for (deployment_nodes.node in deployment_nodes) {
+  for (deploymentNodes.node in deploymentNodes) {
     let publishedDate = Date.parse(
-      deployment_nodes[counter]["node"]["publishedAt"]
+      deploymentNodes[counter]["node"]["publishedAt"]
     );
     if (today > publishedDate && publishedDate > thirtyDaysAgo) {
       numberOfDeployments += 1;
@@ -66,3 +66,72 @@ export const deployments = async (owner: string, repo: string) => {
     numberOfDeployments: numberOfDeployments,
   };
 };
+
+export const leadTimeForChange = async (owner: string, repo: string) => {
+  // Query Lead Time Change
+  const queryPullRequests = gql`
+    query ($owner: String!, $repo: String!) {
+      repository(owner: $owner, name: $repo) {
+        pullRequests(last: 5, states: [MERGED]) {
+          edges {
+            node {
+              createdAt
+              mergedAt
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  let variables = { owner: owner, repo: repo };
+  const data = await graphQLClient.request({
+    document: queryPullRequests,
+    variables: variables,
+  });
+  let pullRequestNodes = data.repository.pullRequests.edges;
+  let numberOfMerges = 0;
+  let leadTimeArray = [];
+  let counter = 0;
+  let todayDate = new Date();
+  let thirtyDaysAgo = new Date().setDate(todayDate.getDate() - 90);
+  let today = todayDate.getTime();
+
+  for (pullRequestNodes.node in pullRequestNodes) {
+    let createdDate = Date.parse(
+      pullRequestNodes[counter]["node"]["createdAt"]
+    );
+
+    let mergedDate = Date.parse(pullRequestNodes[counter]["node"]["mergedAt"]);
+
+    if (today > mergedDate && mergedDate > thirtyDaysAgo) {
+      numberOfMerges += 1;
+      let leadTimeValue = (mergedDate - createdDate) / 1000 / 86400;
+      leadTimeArray.push(leadTimeValue);
+    }
+    counter++;
+  }
+
+  const leadTimeTotal = leadTimeArray.reduce(
+    (previousValue, currentValue) => previousValue + currentValue,
+    0
+  );
+  let leadTime = Math.round(leadTimeTotal / leadTimeArray.length);
+
+  let leadTimeForChange = "";
+  if (leadTime <= 1) {
+    leadTimeForChange = "Elite";
+  } else if (1 < leadTime && leadTime <= 7) {
+    leadTimeForChange = "High";
+  } else if (7 < leadTime && leadTime <= 30) {
+    leadTimeForChange = "Medium";
+  } else if (30 < leadTime && leadTime <= 90) {
+    leadTimeForChange = "Low";
+  } else {
+    leadTimeForChange = "N/A";
+  }
+
+  return { leadTimeForChange: leadTimeForChange, leadTime: leadTime };
+};
+
+leadTimeForChange("rropen", "MEC");

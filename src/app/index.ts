@@ -1,4 +1,4 @@
-import { deployments } from "./utils";
+import { deployments, leadTimeForChange } from "./utils";
 import express, { response } from "express";
 import { print } from "graphql";
 const app = express();
@@ -39,26 +39,27 @@ app.get("/query", async (req, res) => {
   const repo = req.query.repo as string;
   const metric = req.query.metric as string;
 
-  if (token !== process.env.TOKEN_SECRET) {
-    res.status(403).send("Forbidden Incorrect Token");
+  if (token === process.env.TOKEN_SECRET) {
+    if (owner && repo) {
+      if (metric === "deploymentFrequency") {
+        const deploymentData = await deployments(owner, repo);
+        res.status(200).json(deploymentData);
+      } else if (metric === "leadTimeForChange") {
+        const leadTimeForChangeData = await leadTimeForChange(owner, repo);
+        res.status(200).json(leadTimeForChangeData);
+      } else {
+        res.status(400).send("Metric parameter must be passed");
+      }
+    } else {
+      res.status(400);
+      res.send(
+        "Error: Please pass both an owner (github org name) and repo (github repo name) as scopedVars from Grafana."
+      );
+    }
   } else if (!token) {
     res.status(403).send("Need a token for this endpoint");
   } else {
-    if (metric === "deploymentFrequency") {
-      if (owner && repo) {
-        const deploymentData = await deployments(owner, repo);
-        res.status(200).json(deploymentData);
-      } else {
-        res.status(400);
-        res.send(
-          "Error: Please pass both an owner (github org name) and repo (github repo name) as scopedVars from Grafana."
-        );
-      }
-    } else if (!metric) {
-      res.status(400).send("Metric parameter must be passed");
-    } else {
-      res.status(200).send("This Metric is not implemented");
-    }
+    res.status(403).send("Forbidden Incorrect Token");
   }
 });
 
