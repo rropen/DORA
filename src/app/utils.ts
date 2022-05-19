@@ -62,12 +62,12 @@ export const deployments = async (owner: string, repo: string) => {
   }
 
   return {
-    deploymentFrequency: deploymentFrequency,
+    deploymentFrequencyValue: deploymentFrequency,
     numberOfDeployments: numberOfDeployments,
   };
 };
 
-export const leadTimeForChange = async (owner: string, repo: string) => {
+export const leadTimeFunction = async (owner: string, repo: string) => {
   // Query Lead Time Change
   const queryPullRequests = gql`
     query ($owner: String!, $repo: String!) {
@@ -131,7 +131,7 @@ export const leadTimeForChange = async (owner: string, repo: string) => {
     leadTimeForChange = "N/A";
   }
 
-  return { leadTimeForChange: leadTimeForChange, leadTime: leadTime };
+  return { leadTimeValue: leadTimeForChange, leadTime: leadTime };
 };
 
-leadTimeForChange("rropen", "MEC");
+leadTimeFunction("rropen", "MEC");
