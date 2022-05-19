@@ -7,27 +7,14 @@ on:
   push:
     branches: [main]
 
-jobs:
-#   format:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Install Rome
-#         uses: ./
-#         with:
-#           version: latest
-#       - name: Check formatting
-#         run: rome format --ci src
-        
+jobs:     
   docker-build:
     uses: rropen/reusable-workflows/.github/workflows/docker_build.yml@main
     with:
       dockerfile_directory: ./src
       image: ghcr.io/rrglobal/dora:latest
       registry: ghcr.io
-    secrets:
-      cr_username: ${{ secrets.GH_CR_USERNAME }}
-      cr_PAT: ${{ secrets.CONTAINER_PAT }}
+    secrets: inherit
 
   snyk-docker-vulnerability-scanning:
     needs: docker-build
@@ -35,10 +22,7 @@ jobs:
     with:
       image: ghcr.io/rrglobal/dora:latest
       dockerfile_directory: ./src
-    secrets:
-      snyk_token: ${{secrets.SNYK_TOKEN}}
-      cr_username: ${{ secrets.GH_CR_USERNAME }}
-      cr_PAT: ${{ secrets.CONTAINER_PAT }}
+    secrets: inherit
 
   deploy-azure:
     needs: snyk-docker-vulnerability-scanning
@@ -46,10 +30,4 @@ jobs:
     with:
       dockerfile_directory: ./src
       GH_image: ghcr.io/rrglobal/dora:latest
-    secrets:
-      AZ_image: ${{ secrets.IMAGE }}
-      crsft_login_server: ${{ secrets.CRSFT_LOGIN_SERVER }}
-      crsft_username: ${{ secrets.CRSFT_USERNAME }}
-      crsft_password: ${{ secrets.CRSFT_PASSWORD }}
-      cr_username: ${{ secrets.GH_CR_USERNAME }}
-      cr_PAT: ${{ secrets.CONTAINER_PAT }}
+    secrets: inherit
