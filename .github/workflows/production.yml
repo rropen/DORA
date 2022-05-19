@@ -22,6 +22,7 @@ jobs:
     with:
       image: ghcr.io/rrglobal/dora:latest
       dockerfile_directory: ./src
+      folder: ./src
     secrets: inherit
 
   deploy-azure:
