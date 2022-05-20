@@ -2,12 +2,12 @@ const { gql } = require("apollo-server");
 
 const typeDefs = gql`
   type DeploymentFrequency {
-    deploymentFrequencyValue(owner: String, repo: String): String
-    numberOfDeployments(owner: String, repo: String): Int
+    deploymentFrequencyValue(org: String, repo: String): String
+    numberOfDeployments(org: String, repo: String): Int
   }
   type LeadTimeForChange {
-    leadTimeValue(owner: String, repo: String): String
-    leadTime(owner: String, repo: String): String
+    leadTimeValue(org: String, repo: String): String
+    leadTime(org: String, repo: String): String
   }
   type Query {
     deploymentFrequency: [DeploymentFrequency]
