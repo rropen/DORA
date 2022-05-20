@@ -19,7 +19,6 @@ const server = new ApolloServer({
     if (req.headers.authorization === process.env.TOKEN_SECRET) {
       authenticated = true;
     }
-    console.log(authenticated);
     return { authenticated };
   },
 });
