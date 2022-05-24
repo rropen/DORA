@@ -7,6 +7,7 @@ require("dotenv").config();
 const { ApolloServer } = require("apollo-server");
 const typeDefs = require("./schema");
 const resolvers = require("./resolvers");
+const PORT = process.env.PORT || 4009;
 
 const server = new ApolloServer({
   typeDefs,
@@ -23,7 +24,7 @@ const server = new ApolloServer({
   },
 });
 
-server.listen().then(() => {
+server.listen({ port: PORT }).then(() => {
   console.log(
     `
     Server is running!

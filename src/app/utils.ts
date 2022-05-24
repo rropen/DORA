@@ -9,10 +9,10 @@ const graphQLClient = new GraphQLClient(gh_api_url, {
   headers: { authorization: auth },
 });
 
-export const deployments = async (org: string, repo: string) => {
+export const deployments = async (owner: string, repo: string) => {
   const queryDeployment = gql`
-    query ($org: String!, $repo: String!) {
-      repository(org: $org, name: $repo) {
+    query ($owner: String!, $repo: String!) {
+      repository(owner: $owner, name: $repo) {
         releases(last: 21) {
           edges {
             node {
@@ -24,7 +24,7 @@ export const deployments = async (org: string, repo: string) => {
       }
     }
   `;
-  let variables = { org: org, repo: repo };
+  let variables = { owner: owner, repo: repo };
   const data = await graphQLClient.request({
     document: queryDeployment,
     variables: variables,
@@ -67,11 +67,11 @@ export const deployments = async (org: string, repo: string) => {
   };
 };
 
-export const leadTimeFunction = async (org: string, repo: string) => {
+export const leadTimeFunction = async (owner: string, repo: string) => {
   // Query Lead Time Change
   const queryPullRequests = gql`
-    query ($org: String!, $repo: String!) {
-      repository(org: $org, name: $repo) {
+    query ($owner: String!, $repo: String!) {
+      repository(owner: $owner, name: $repo) {
         pullRequests(last: 5, states: [MERGED]) {
           edges {
             node {
@@ -84,7 +84,7 @@ export const leadTimeFunction = async (org: string, repo: string) => {
     }
   `;
 
-  let variables = { org: org, repo: repo };
+  let variables = { owner: owner, repo: repo };
   const data = await graphQLClient.request({
     document: queryPullRequests,
     variables: variables,

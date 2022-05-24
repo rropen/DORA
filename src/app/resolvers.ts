@@ -5,14 +5,12 @@ const resolvers = {
     //@ts-ignore
     deploymentFrequency: (parent, args, context, info) => {
       if (!context.authenticated) return null;
-      return [deployments(info.variableValues.org, info.variableValues.repo)];
+      return deployments(args.owner, args.repo);
     },
     //@ts-ignore
     leadTimeForChange: (parent, args, context, info) => {
       if (!context.authenticated) return null;
-      return [
-        leadTimeFunction(info.variableValues.org, info.variableValues.repo),
-      ];
+      return [leadTimeFunction(args.owner, args.repo)];
     },
   },
 };
