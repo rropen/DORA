@@ -128,6 +128,7 @@ export const leadTimeFunction = async (owner: string, repo: string) => {
     leadTimeForChange = "Low";
   } else {
     leadTimeForChange = "N/A";
+    leadTime = 0;
   }
   return { leadTimeValue: leadTimeForChange, leadTime: leadTime };
 };
