@@ -10,7 +10,7 @@ const resolvers = {
     //@ts-ignore
     leadTimeForChange: (parent, args, context, info) => {
       if (!context.authenticated) return null;
-      return [leadTimeFunction(args.owner, args.repo)];
+      return leadTimeFunction(args.owner, args.repo);
     },
   },
 };

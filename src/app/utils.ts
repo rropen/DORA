@@ -60,7 +60,6 @@ export const deployments = async (owner: string, repo: string) => {
   } else {
     deploymentFrequency = "N/A";
   }
-
   return {
     deploymentFrequencyValue: deploymentFrequency,
     numberOfDeployments: numberOfDeployments,
@@ -130,8 +129,5 @@ export const leadTimeFunction = async (owner: string, repo: string) => {
   } else {
     leadTimeForChange = "N/A";
   }
-
   return { leadTimeValue: leadTimeForChange, leadTime: leadTime };
 };
-
-leadTimeFunction("rropen", "MEC");
