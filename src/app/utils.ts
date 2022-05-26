@@ -35,14 +35,14 @@ export const deployments = async (owner: string, repo: string) => {
   let deploymentFrequency = "";
   let counter = 0;
   let todayDate = new Date();
-  let thirtyDaysAgo = new Date().setDate(todayDate.getDate() - 90);
+  let ninetyDaysAgo = new Date().setDate(todayDate.getDate() - 90);
   let today = todayDate.getTime();
 
   for (deploymentNodes.node in deploymentNodes) {
     let publishedDate = Date.parse(
       deploymentNodes[counter]["node"]["publishedAt"]
     );
-    if (today > publishedDate && publishedDate > thirtyDaysAgo) {
+    if (today > publishedDate && publishedDate > ninetyDaysAgo) {
       numberOfDeployments += 1;
     }
     counter++;
