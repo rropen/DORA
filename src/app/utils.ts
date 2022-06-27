@@ -132,3 +132,29 @@ export const leadTimeFunction = async (owner: string, repo: string) => {
   }
   return { leadTimeValue: leadTimeForChange, leadTime: leadTime };
 };
+
+export const timeToRestore = async (owner: string, repo: string) => {
+  //Query Risk Issues
+  const queryRiskIssues = gql`
+    query ($owner: String!, $repo: String!) {
+      repository(owner: $owner, name: $repo) {
+        risk: issues(labels: "risk", first: 100) {
+          edges {
+            node {
+              title
+              createdAt
+              closedAt
+            }
+          }
+        }
+      }
+    }
+  `;
+  let variables = { owner: owner, repo: repo };
+  const data = await graphQLClient.request({
+    document: queryRiskIssues,
+    variables: variables,
+  });
+  console.log(data.repository.risk.edges[0].node);
+};
+timeToRestore("rropen", "MEC");
