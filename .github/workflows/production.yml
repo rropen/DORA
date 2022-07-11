@@ -1,0 +1,34 @@
+# Test
+name: Development Build
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:     
+  docker-build:
+    uses: rropen/reusable-workflows/.github/workflows/docker_build.yml@main
+    with:
+      dockerfile_directory: ./src
+      image: ghcr.io/rrglobal/dora:latest
+      registry: ghcr.io
+    secrets: inherit
+
+  snyk-docker-vulnerability-scanning:
+    needs: docker-build
+    uses: rropen/reusable-workflows/.github/workflows/snyk_docker_vulnerability_scanning.yml@main
+    with:
+      image: ghcr.io/rrglobal/dora:latest
+      dockerfile_directory: ./src
+      folder: ./src
+    secrets: inherit
+
+  deploy-azure:
+    needs: snyk-docker-vulnerability-scanning
+    uses: rropen/reusable-workflows/.github/workflows/docker_deploy_azure.yml@main
+    with:
+      dockerfile_directory: ./src
+      GH_image: ghcr.io/rrglobal/dora:latest
+    secrets: inherit
