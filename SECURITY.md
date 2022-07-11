@@ -1,19 +1,19 @@
 # Security Policies and Procedures
 
-This document outlines security procedures and general policies for the `ChangeMe`
+This document outlines security procedures and general policies for the `DORA`
 project.
 
-* [Private Software Policy](#private-software-policy)
+* [Public Software Policy](#public-software-policy)
 * [Reporting a Bug](#reporting-a-bug)
 
-## Private Software Policy
+## Public Software Policy
 
-The `ChangeMe` repository and project are intended to be internally accessible to Rolls-Royce employees and approved partners.  This project should not public facing or used publicly without the express permission of Rolls-Royce.  If you find this package in the public, please contact the lead maintainer at [Josh.Haines@Rolls-Royce.com](mailto:Josh.Haines@Rolls-Royce.com).
+The `DORA` project is intended to be public facing. It is being used in a openly-visible-metrics capacity and will play a small part in the Rolls-Royce Digital Transformation efforts.  If you have any questions, please contact the lead maintainer at [Josh.Haines@Rolls-Royce.com](mailto:Josh.Haines@Rolls-Royce.com).
 
 ## Reporting a Bug
 
-The `ChangeMe` team and community take all security bugs in `ChangeMe` seriously.
-Thank you for improving the security of `ChangeMe`. We appreciate your efforts and
+The Rolls-Royce Software Factory team and community take all security bugs in `DORA` seriously.
+Thank you for improving the security of `DORA`. We appreciate your efforts and
 responsible disclosure and will make every effort to acknowledge your
 contributions.
 
