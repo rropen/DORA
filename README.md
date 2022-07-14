@@ -12,6 +12,7 @@
 
 ---
 
+<<<<<<< HEAD
 <p>
     <img alt="Rolls-Royce Logo" width="100" src="https://raw.githubusercontent.com/rropen/.github/main/img/logo.png">
     <br>
@@ -26,6 +27,8 @@
 
 ---
 
+=======
+>>>>>>> 20d02cf422e3174f6a67f945b02bfa65a80c2735
 ## Overview
 
 This project is intended to provide a way for the Rolls-Royce Software Factory to track and display it's [DORA](https://www.devops-research.com/research.html) metrics in accordance with modern DevSecOps [best practices](https://itrevolution.com/measure-software-delivery-performance-four-key-metrics/). As we continue in our Digital Transformation and align ourselves with the DoD's [efforts](https://software.af.mil/wp-content/uploads/2021/05/Digital-Building-Code-and-Scorecard-Memo-v15.pdf) around DevSecOps we need to track these metrics. Initially we'll start with the [four key](https://cloud.google.com/blog/products/devops-sre/using-the-four-keys-to-measure-your-devops-performance) metrics and likely scale out from there as appropriate.
