@@ -132,7 +132,6 @@ export const leadTimeFunction = async (owner: string, repo: string) => {
   }
   return { leadTimeValue: leadTimeForChange, leadTime: leadTime };
 };
-<<<<<<< HEAD
 
 export const timeToRestore = async (owner: string, repo: string) => {
   //Query Risk Issues
@@ -159,5 +158,3 @@ export const timeToRestore = async (owner: string, repo: string) => {
   console.log(data.repository.risk.edges[0].node);
 };
 timeToRestore("rropen", "MEC");
-=======
->>>>>>> 20d02cf422e3174f6a67f945b02bfa65a80c2735
