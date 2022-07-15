@@ -111,6 +111,8 @@ export const leadTimeFunction = async (owner: string, repo: string) => {
     counter++;
   }
 
+  console.log("success");
+
   const leadTimeTotal = leadTimeArray.reduce(
     (previousValue, currentValue) => previousValue + currentValue,
     0
@@ -157,4 +159,5 @@ export const timeToRestore = async (owner: string, repo: string) => {
   });
   console.log(data.repository.risk.edges[0].node);
 };
+
 timeToRestore("rropen", "MEC");
